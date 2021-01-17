@@ -1,25 +1,34 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Container } from 'semantic-ui-react';
+
+import { setAuthUser, setUnauthUser } from './store/actions/user';
+
+import Header from "./components/Header"
+import Auth from './pages/Auth';
+
+import 'semantic-ui-css/semantic.min.css'
 
 function App() {
+  const dispatch = useDispatch()
+  
+  React.useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    if(user.id !== undefined) dispatch(setAuthUser(user.id))
+    else dispatch(setUnauthUser())
+  }, [dispatch])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Container>
+          <Header />
+          <Route path="/" exact />
+          <Route path="/login" component={Auth} exact />
+        </Container>
+      </Router>
+    </>
   );
 }
 
