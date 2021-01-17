@@ -32,7 +32,7 @@ const Auth: React.FC = (): React.ReactElement => {
 
     switch (status) {
         case UserStatusTypes.NEVER:
-            return <Dimmer active inverted><Loader inverted size='massive' /></Dimmer>
+            return <Loader active size='massive' />
         case UserStatusTypes.AUTH:
             return <Redirect to='/profile' />
         default:

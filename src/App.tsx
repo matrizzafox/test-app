@@ -6,7 +6,7 @@ import { Container } from 'semantic-ui-react';
 import { setAuthUser, setUnauthUser } from './store/actions/user';
 
 import Header from "./components/Header"
-import Auth from './pages/Auth';
+import { Auth, Profile} from './pages';
 
 import 'semantic-ui-css/semantic.min.css'
 
@@ -25,7 +25,8 @@ function App() {
         <Container>
           <Header />
           <Route path="/" exact />
-          <Route path="/login" component={Auth} exact />
+          <Route path="/login" component={Auth} />
+          <Route path="/profile/:id?" component={Profile} />
         </Container>
       </Router>
     </>

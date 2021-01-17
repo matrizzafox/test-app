@@ -1,20 +1,12 @@
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import { Menu, Button } from 'semantic-ui-react'
-import { UserStateType, UserStatusTypes } from '../../helpers/types'
+import { NavLink } from 'react-router-dom'
+import { Menu } from 'semantic-ui-react'
+
+import ProfileSide from './ProfileSide'
 
 import './styles.css'
-import { setUnauthUser } from '../../store/actions/user'
 
 const Header: React.FC = (): React.ReactElement => {
-    const dispatch = useDispatch()
-    const { status } = useSelector(({ User }: { User: UserStateType }) => User)
-
-    const handleLogout = (): void => {
-        dispatch(setUnauthUser())
-        localStorage.removeItem('user')
-    }
 
     return (
             <Menu stackable className="top-header">
@@ -27,13 +19,7 @@ const Header: React.FC = (): React.ReactElement => {
                 <Menu.Item as={NavLink} to="/news">
                     Новости
                 </Menu.Item>
-                <Menu.Menu position='right'>
-                    <Menu.Item>
-                        {status === UserStatusTypes.UNAUTH 
-                        ? <Button primary as={Link} to='/login'>Войти</Button>
-                        : <Button primary onClick={handleLogout}>Выйти</Button>}
-                    </Menu.Item>
-                </Menu.Menu>
+                <ProfileSide />
             </Menu>
     )
 }
