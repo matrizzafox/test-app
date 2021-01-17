@@ -2,25 +2,12 @@ import axios from 'axios'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { Card, Dimmer, Grid, Header, Icon, Image, List, Loader, Segment } from 'semantic-ui-react'
+import { Card, Grid, Header, Icon, Image, List, Loader, Segment } from 'semantic-ui-react'
+import {ProfileLangItem, ProfileSocialItem} from '../../components/Profile'
 import { UserStateType, UserStatusTypes } from '../../helpers/types'
+import { ProfileStateType, UserProfileType, UserSocialType } from './types'
 
-type UserSocialType = {
-    label: string,
-    link: string
-}
 
-type UserType = {
-    userId: number,
-    city: string,
-    languages: string[],
-    social: UserSocialType[]
-}
-
-type ProfileStateType = {
-    status: string,
-    data: UserType | null
-}
 
 const Profile: React.FC = (): React.ReactElement => {
     const { status, id } = useSelector(({ User }: { User: UserStateType }) => User)
@@ -30,7 +17,8 @@ const Profile: React.FC = (): React.ReactElement => {
         setUser(prev => ({ ...prev, status: 'LOADING' }))
         axios.get('https://mysterious-reef-29460.herokuapp.com/api/v1/user-info/' + id).then(({ data }) => {
             if (data.status === 'err') return setUser(prev => ({ ...prev, status: 'ERROR' }))
-            const user: UserType = data.data
+            const user: UserProfileType = data.data
+            user.social = [...user.social.filter((o: UserSocialType) => o.label === 'web'), ...user.social.filter((o: UserSocialType) => o.label !== 'web')]
             setUser({ status: 'LOADED', data: user })
         }).catch((error: Error) => {
             setUser(prev => ({ ...prev, status: 'NET_ERROR' }))
@@ -84,27 +72,12 @@ const Profile: React.FC = (): React.ReactElement => {
                                 <Grid.Column width={6} >
                                     <p>Знание языков</p>
                                     <List relaxed>
-                                        {user.data && user.data.languages.map((lang) => (
-                                            <List.Item key={lang}>
-                                                <List.Icon name='language' size='large' verticalAlign='middle' />
-                                                <List.Content>
-                                                    <List.Header>{lang}</List.Header>
-                                                </List.Content>
-                                            </List.Item>
-                                        ))}
+                                        {user.data?.languages.map((lang) => <ProfileLangItem key={lang} lang={lang} />)}
                                     </List>
                                 </Grid.Column>
                                 <Grid.Column width={10}>
                                     <List>
-                                        {user.data && user.data.social.map((soc) => (
-                                            <List.Item key={soc.label}>
-                                                <Image avatar src={`/imgs/${soc.label}.png`} />
-                                                <List.Content>
-                                                    <List.Header as='a' href={soc.link} target="__blank">{soc.label}</List.Header>
-                                                    <List.Description>Найдите меня в {soc.label}</List.Description>
-                                                </List.Content>
-                                            </List.Item>
-                                        ))}
+                                        {user.data?.social.map((soc) => <ProfileSocialItem key={soc.label} {...soc}/>)}
                                     </List>
                                 </Grid.Column>
                             </Grid.Row>

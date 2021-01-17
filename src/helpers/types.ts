@@ -1,3 +1,5 @@
+import { NewsType } from "../store/actions/news"
+
 export type LoginFormStateType = {
     email: string,
     password: string
@@ -23,6 +25,14 @@ type AuthSuccessType = ResponseSuccessType & {
         }
     }
 }
+
+type NewsSuccessType = ResponseSuccessType & {
+    data: {
+        data: NewsType[]
+    }
+}
+
+export type NewsResponseTypes = ResponseErrType | NewsSuccessType
 
 export type AuthResponseTypes = ResponseErrType | AuthSuccessType
 

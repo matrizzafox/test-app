@@ -14,9 +14,6 @@ const Header: React.FC = (): React.ReactElement => {
                     <img src='/logo.png' alt="LOGO" />
                 </Menu.Item>
                 <Menu.Item as={NavLink} to="/" exact>
-                    Главная
-                </Menu.Item>
-                <Menu.Item as={NavLink} to="/news">
                     Новости
                 </Menu.Item>
                 <ProfileSide />

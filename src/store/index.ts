@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 
-import { User } from './reducers'
+import { User, News } from './reducers'
 
 declare global {
     interface Window {
@@ -9,7 +9,7 @@ declare global {
     }
 }
 
-const rootReducer = combineReducers({ User })
+const rootReducer = combineReducers({ User, News })
 
 const composeEnhancer = window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || compose
 

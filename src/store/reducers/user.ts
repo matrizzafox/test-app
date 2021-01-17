@@ -7,7 +7,7 @@ const initialState = {
     error: null
 }
 
-const user = (state: UserStateType = initialState, action: UserActionTypes) => {
+const user = (state: UserStateType = initialState, action: UserActionTypes): UserStateType => {
     switch (action.type) {
         case UserActions.SET_USER_AUTH:
             return {...state, status: UserStatusTypes.AUTH, id: action.payload}
